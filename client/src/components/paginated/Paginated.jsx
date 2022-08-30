@@ -1,9 +1,11 @@
 import React from "react";
+import "./paginated.css";
 
 export default function Paginated({
   countriesPerPage,
   allCountries,
   paginated,
+  currentPage,
 }) {
   const pageNumbers = [];
 
@@ -17,11 +19,16 @@ export default function Paginated({
 
   return (
     <nav>
-      <ul>
+      <ul className={`listita`}>
         {pageNumbers?.map((n) => {
           return (
             <li key={n}>
-              <button onClick={() => paginated(n)}>{n}</button>
+              <button
+                onClick={() => paginated(n)}
+                className={`${currentPage === n ? "active" : null}`}
+              >
+                {n}
+              </button>
             </li>
           );
         })}

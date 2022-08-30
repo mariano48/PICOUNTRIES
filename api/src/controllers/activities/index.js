@@ -1,8 +1,8 @@
 const { Activity } = require("../../db");
-const Country = require("../../models/Country");
 
 const createActivity = async (name, difficulty, season, duration, ids) => {
-  if (!name || !difficulty || !duration || !season) {
+  console.log(ids);
+  if (!name || !difficulty || !duration || !season || !ids.length) {
     throw "Debe ingresar todos los campos obligatorios";
   } else if (
     season === "summer" ||
@@ -16,10 +16,17 @@ const createActivity = async (name, difficulty, season, duration, ids) => {
       duration,
       season,
     });
+    await activity.setCountries(ids);
+
     return `${name}: Actividad creada correctamente`;
   } else {
     throw "La temporada ingresada es invalida";
   }
 };
 
-module.exports = { createActivity };
+const getAllActivities = async () => {
+  const activities = await Activity.findAll();
+  return activities;
+};
+
+module.exports = { createActivity, getAllActivities };

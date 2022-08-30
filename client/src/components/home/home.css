@@ -1,0 +1,21 @@
+* {
+  margin-top: 0;
+}
+
+.selectContainer {
+  position: relative;
+  padding-top: 315px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.filtersContainer {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}

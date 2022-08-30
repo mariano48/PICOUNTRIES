@@ -1,0 +1,16 @@
+.listita {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.listita li {
+    padding: 0 5px;
+
+}
+
+.listita button.active {
+  background-color: #444;
+  color: white;
+} 

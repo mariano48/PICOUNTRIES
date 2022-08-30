@@ -1,0 +1,10 @@
+.layoutContainer {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+}
+
+.childrenContainer {
+  width: 100%;
+  justify-items: center;
+}

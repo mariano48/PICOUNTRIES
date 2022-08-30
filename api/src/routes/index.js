@@ -2,14 +2,13 @@ const { Router } = require("express");
 const axios = require("axios");
 const { Activity, Country } = require("../db.js");
 const sequelize = require("sequelize");
-const { createActivity } = require("../controllers/activities/index.js");
+const {
+  createActivity,
+  getAllActivities,
+} = require("../controllers/activities/index.js");
 const {
   getCountryByID,
   getAllCountries,
-  getApiInfo,
-  apiToBd,
-  getDbInfo,
-  getCountryByName,
 } = require("../controllers/countries/index.js");
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -20,21 +19,12 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 router.get("/countries", async (req, res) => {
-  const { name } = req.query;
-  let getCountries = await getAllCountries();
-  if (name) {
-    try {
-      const country = await getCountryByName(name);
-      return res.status(200).json(country);
-    } catch (error) {
-      return res.status(404).send(error);
-    }
-  } else {
-    try {
-      return res.status(200).json(getCountries);
-    } catch (error) {
-      return res.status(404).json({ error: error });
-    }
+  const { searchTerm, continent, activityId } = req.query;
+  try {
+    const countries = await getAllCountries(searchTerm, continent, activityId);
+    return res.status(200).json(countries);
+  } catch (error) {
+    return res.status(404).send(error);
   }
 });
 
@@ -49,10 +39,24 @@ router.get("/countries/:id", async (req, res) => {
   }
 });
 
-router.post("/activities", async (req, res) => {
-  const { name, difficulty, season, duration } = req.body;
+router.get("/activities", async (req, res) => {
   try {
-    let newActivity = await createActivity(name, difficulty, season, duration);
+    const allActivities = await getAllActivities();
+    res.status(200).json(allActivities);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+router.post("/activities", async (req, res) => {
+  const { name, difficulty, season, duration, ids } = req.body;
+  try {
+    let newActivity = await createActivity(
+      name,
+      difficulty,
+      season,
+      duration,
+      ids
+    );
     res.status(200).send(newActivity);
   } catch (error) {
     res.status(400).json({ error: error });

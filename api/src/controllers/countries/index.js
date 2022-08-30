@@ -1,12 +1,13 @@
 const { Country, Activity } = require("../../db");
 const axios = require("axios");
+const { Op } = require("sequelize");
 
 const api = "https://restcountries.com/v3.1";
 const getApiInfo = async () => {
   const apiUrl = await axios.get(`${api}/all`);
-  const apiInfo = await apiUrl.data.map((c) => {
+  const apiInfo = apiUrl.data.map((c) => {
     return {
-      cca3: c.cca3,
+      id: c.cca3,
       name: c.name.common,
       flag: c.flags.png,
       continent: c.continents[0],
@@ -24,27 +25,46 @@ const apiToBd = async (allCountries) => {
   return dbInfo;
 };
 
-const getDbInfo = async () => {
-  return await Country.findAll({
+const getDbInfo = async (searchTerm, continent, activityId) => {
+  let filter = {};
+
+  if (continent) {
+    filter.continent = { continent };
+  }
+  if (activityId) {
+    filter.activity = { id: { [Op.eq]: Number(activityId) } };
+  }
+  if (searchTerm) {
+    filter.searchTerm = { name: { [Op.iLike]: `%${searchTerm}%` } };
+  }
+
+  const countries = await Country.findAll({
+    where: { ...filter.continent, ...filter.searchTerm },
     include: [
       {
         model: Activity,
-        attributes: ["name"],
+        where: filter.activity,
+        attributes: [],
+        through: { attributes: [] },
       },
     ],
   });
+  return countries;
 };
 
 const getCountryByID = async (id) => {
   let idUC = id.toUpperCase();
   let countryInfo = await Country.findOne({
     where: {
-      cca3: idUC,
+      id: idUC,
     },
     include: [
       {
         model: Activity,
-        attributes: ["name"],
+        attributes: ["id", "name", "difficulty", "duration", "season"],
+        through: {
+          attributes: [],
+        },
       },
     ],
   });
@@ -53,16 +73,13 @@ const getCountryByID = async (id) => {
   } else throw "Invalid ID";
 };
 
-const getAllCountries = async () => {
-  let allCountries = await getDbInfo();
-  if (!allCountries.length) {
-    allCountries = await getApiInfo();
-    await apiToBd(allCountries);
-  }
+const getAllCountries = async (searchTerm, continent, activity) => {
+  let allCountries = await getDbInfo(searchTerm, continent, activity);
   return allCountries;
 };
 const getCountryByName = async (name) => {
-  const country = Country.findOne({ where: { name } });
+  const nameRight = name[0].toUpperCase() + name.slice(1).toLowerCase();
+  const country = Country.findOne({ where: { name: nameRight } });
   if (country) {
     return country;
   } else throw "There is no country with that name";
@@ -75,4 +92,5 @@ module.exports = {
   getCountryByID,
   getAllCountries,
   getCountryByName,
+  // orderBy,
 };
