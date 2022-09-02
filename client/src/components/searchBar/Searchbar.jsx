@@ -1,34 +1,31 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getCountryByName } from "../../actions";
+import { getCountryBySearchTerm } from "../../actions";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   function handleInputChange(e) {
     e.preventDefault();
-    setName(e.target.value);
+    setSearchTerm(e.target.value);
   }
 
-  function handleSubmitName(e) {
+  function handleSubmitSearchTerm(e) {
     e.preventDefault();
-    dispatch(getCountryByName(e.target.id));
+    dispatch(getCountryBySearchTerm(e.target.id));
+    setSearchTerm("");
   }
 
   return (
     <form className="form">
-      <input
-        type="text"
-        placeholder="Search by name..."
-        onChange={handleInputChange}
-      />
+      <input value={searchTerm} type="text" onChange={handleInputChange} />
       <input
         type="submit"
-        id={name}
+        id={searchTerm}
         value="Search"
-        onClick={handleSubmitName}
+        onClick={handleSubmitSearchTerm}
       />
     </form>
   );

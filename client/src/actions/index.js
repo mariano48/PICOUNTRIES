@@ -1,13 +1,15 @@
 import axios from "axios";
+
 export const GET_COUNTRIES = "GET_COUNTRIES";
-export const GET_COUNTRY_BY_NAME = "GET_COUNTRY_BY_NAME";
+export const GET_COUNTRY_BY_SEARCHTERM = "GET_COUNTRY_BY_SEARCHTERM";
 export const GET_COUNTRY_BY_ID = "GET_COUNTRY_BY_ID";
 export const FILTER_BY_CONTINENT = "FILTER_BY_CONTINENT";
 export const GET_ACTIVITIES = "GET_ACTIVITIES";
 export const FILTER_BY_ACTIVITY = "FILTER_BY_ACTIVITY";
 export const CHANGE_FILTER = "CHANGE_FILTER";
-export const NOT_FOUND = "NOT_FOUND";
+export const ERROR = "ERROR";
 export const CHANGE_ORDER = "CHANGE_ORDER";
+export const CREATE_ACTIVITY = "CREATE_ACTIVITY";
 
 export function getCountries() {
   return async function (dispatch) {
@@ -19,19 +21,19 @@ export function getCountries() {
   };
 }
 
-export function getCountryByName(name) {
+export function getCountryBySearchTerm(searchTerm) {
   return async function (dispatch) {
     try {
-      let json = await axios.get(
-        `http://localhost:3001/countries?searchTerm=${name}`
-      );
+      let json = await axios.get(`http://localhost:3001/countries`, {
+        params: { searchTerm },
+      });
       return dispatch({
-        type: GET_COUNTRY_BY_NAME,
+        type: GET_COUNTRY_BY_SEARCHTERM,
         payload: json.data,
       });
     } catch (error) {
       return dispatch({
-        type: NOT_FOUND,
+        type: ERROR,
         payload: error,
       });
     }
@@ -48,7 +50,7 @@ export function getCountryById(id) {
       });
     } catch (error) {
       return dispatch({
-        type: NOT_FOUND,
+        type: ERROR,
         payload: error,
       });
     }
@@ -72,7 +74,6 @@ export function filterBy(payload) {
   }
   return async function (dispatch) {
     dispatch({ type: CHANGE_FILTER, payload });
-    console.log(payload);
     const json = await axios.get("http://localhost:3001/countries", {
       params: { continent: payload.continent, activityId: id },
     });
@@ -84,7 +85,6 @@ export function filterBy(payload) {
 }
 
 export function changeOrder(order) {
-  console.log(order);
   return {
     type: CHANGE_ORDER,
     payload: order,
@@ -93,10 +93,16 @@ export function changeOrder(order) {
 
 export function createActivity(payload) {
   return async function (dispatch) {
-    const response = await axios.post(
-      `http://localhost:3001/activities`,
-      payload
-    );
-    return response;
+    const response = await axios.post(`http://localhost:3001/activities`, {
+      name: payload.name[0].toUpperCase() + payload.name.slice(1).toLowerCase(),
+      difficulty: payload.difficulty,
+      duration: payload.duration,
+      season: payload.season,
+      ids: payload.ids,
+    });
+    return dispatch({
+      type: CREATE_ACTIVITY,
+      payload: response,
+    });
   };
 }

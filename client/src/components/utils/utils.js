@@ -1,38 +1,41 @@
-export function validateInput(values, activities) {
+export function validateInput(values) {
   let errors = {};
+  errors.disable = true;
   if (!values.name) {
     errors.name = "This field is required";
-  } else if (values.name.length < 4) {
-    errors.name = "Minimum be 4 characters or more";
+  } else if (!validateName(values.name)) {
+    errors.name = "Please insert only letters (A-Z)";
+  } else if (values.name.length < 3) {
+    errors.name = "Minimum be 3 characters";
+  } else if (values.name.length > 15) {
+    errors.name = "Maximum be 15 characters";
+  } else if (!values.difficulty) {
+    errors.difficulty = "This field is required";
+  } else if (values.difficulty < 1 || values.difficulty > 5) {
+    errors.difficulty = "Only numbers between 1 and 5 are allowed";
   } else if (!values.duration) {
-    errors.duration = "You must enter the duration of the activity";
+    errors.duration = "This field is required";
   } else if (values.duration < 1 || values.duration > 365) {
     errors.duration = "Please insert a number between 1 and 365";
-  }
-  // console.log(errors);
-  return errors;
-}
-
-export function validateSelect(value) {
-  let errors = {};
-
-  if (!value) {
-    errors.season = "Please select a season for the activity";
+  } else {
+    errors.disable = false;
   }
   return errors;
 }
 
 export function searchCountry(value, countries) {
-  const countryFiltered = countries.filter((c) => c.name === value);
-  if (countryFiltered.length !== 0) {
-    return countryFiltered[0];
+  const country = countries.filter((c) => c.name === value);
+  if (country.length !== 0) {
+    return country[0];
   }
+  return;
 }
 
 export function getIds(countries) {
-  console.log(
-    "a",
-    countries.map((c) => c.id)
-  );
-  return countries.map((c) => c.id);
+  const ids = countries.map((c) => c.id);
+  return ids;
 }
+
+export const validateName = (name) => {
+  return /^[a-zA-Z]{1,20}$/.test(name);
+};

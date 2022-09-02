@@ -1,8 +1,9 @@
 .navMain {
   height: 315px;
   width: 100%;
-  background-image: url("../img/navBarImg.jpg");
-  position: absolute;
+  background: url("../img/navBarImg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
   flex-direction: column;
   margin-top: 0;
@@ -17,28 +18,34 @@
   width: 400px;
   height: 180px;
   padding-left: 17px;
-  padding-top: 40px;
   line-height: 70px;
   font-weight: bold;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  /* text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black; */
 }
 
 .navContainer {
   display: flex;
   justify-content: space-between;
+  padding: 0 16px;
   align-content: center;
   align-self: flex-end;
   flex-direction: row;
   align-items: center;
-  height: 55px;
+  min-height: 55px;
+  max-height: 55px;
   width: 100%;
   background-color: rgb(11, 66, 96);
+  box-sizing: border-box;
+}
+
+.navContainer .textLinks:hover {
+  text-decoration: underline;
 }
 
 .textLinks {
   color: white;
   text-decoration: none;
+  margin-right: 30px;
 }
 .textSelect {
   font-size: 25px;

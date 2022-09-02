@@ -1,3 +1,32 @@
+* {
+  text-decoration: none;
+}
+
 .countryCard {
-  background-color: yellowgreen;
+  background-color: rgba(11, 66, 96);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  text-decoration: none;
+  max-height: 260px;
+  max-width: 326px;
+  border-radius: 5px;
+  color: rgb(196, 153, 53);
+}
+
+.countryCard:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.9);
+}
+
+.countryCard p {
+  padding-bottom: 15px;
+  font-size: 15px;
+}
+
+.countryCard h3 {
+  font-size: 17px;
+  padding-top: 0px;
+}
+
+.countryCard img {
+  border-radius: 5px;
 }

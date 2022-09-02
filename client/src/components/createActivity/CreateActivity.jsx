@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
-// import { Link, useHistory } from "react-router-dom";
 import { getActivities, getCountries, createActivity } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import "./createActivity.css";
-import {
-  getIds,
-  searchCountry,
-  validateInput,
-  validateSelect,
-} from "../utils/utils";
+import { getIds, searchCountry, validateInput } from "../utils/utils";
+import Layout from "../layout/Layout";
 
 export default function CreateActivity() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const countries = useSelector((state) => state.countries);
-  const [error, setError] = useState({});
+  const response = useSelector((state) => state.response);
+  const error = useSelector((state) => state.error);
+  const [errorInput, setErrorInput] = useState({});
   const [disable, setDisable] = useState(true);
   const [countriesList, setCountriesList] = useState([]);
   const [inputCountries, setInputCountries] = useState("");
   const [inputActivity, setInputActivity] = useState({
     name: "",
-    difficulty: "",
-    duration: "",
+    difficulty: 1,
+    duration: 1,
     season: "summer",
     ids: [],
   });
@@ -30,24 +29,21 @@ export default function CreateActivity() {
     dispatch(getActivities());
   }, [dispatch]);
 
-  function handleInputActivity(e) {
-    setInputActivity({ ...inputActivity, [e.target.name]: e.target.value });
-    const validationInput = validateInput(inputActivity);
-    setError(validationInput);
-    if (!error.name || !error.duration || !error.difficulty || !error.season) {
-      setDisable(false);
-    } else {
-      setDisable(true);
+  useEffect(() => {
+    if (response) {
+      alert(response);
+      navigate("/countries");
+    } else if (error) {
+      alert(error);
     }
-  }
+  }, [response, error, navigate]);
 
-  function handleSelect(e) {
-    setInputActivity({ ...inputActivity, season: e.target.value });
-    const validationSel = validateSelect(inputActivity);
-    setError(validationSel);
-    if (!error.name && !error.duration && !error.difficulty && !error.season) {
-      setDisable(false);
-    }
+  function handleInputActivity(e) {
+    const input = { ...inputActivity, [e.target.name]: e.target.value };
+    setInputActivity(input);
+    const errors = validateInput(input);
+    setErrorInput(errors);
+    setDisable(errors.disable);
   }
 
   function handleDatalistCountries(e) {
@@ -57,103 +53,151 @@ export default function CreateActivity() {
   function handleCountrySelect(e) {
     e.preventDefault();
     const country = searchCountry(inputCountries, countries);
-    setCountriesList([...countriesList, country]);
-    const countriesIds = getIds(countriesList);
+    let list = [...countriesList, country];
+    if (!country) {
+      list = countriesList;
+    }
+    setCountriesList(list);
+    const countriesIds = getIds(list);
     setInputActivity({
       ...inputActivity,
-      ids: [countriesIds],
+      ids: countriesIds,
     });
     setInputCountries("");
   }
 
-  function submitForm(e) {
+  function deleteFromList(e) {
     e.preventDefault();
-    console.log(inputActivity);
+    const newList = countriesList.filter((c) => c.id !== e.target.value);
+    const newIdsList = getIds(newList);
+    setCountriesList(newList);
+    setInputActivity({ ...inputActivity, ids: newIdsList });
+  }
+
+  function submitForm(e) {
+    e.preventDefault(e);
+    dispatch(createActivity(inputActivity));
+    const input = {
+      name: "",
+      difficulty: 1,
+      duration: 1,
+      season: "summer",
+      ids: [],
+    };
+    setInputActivity(input);
+    setCountriesList(input.ids);
   }
 
   return (
-    <div className="mainDiv">
-      <h1> CREATE ACTIVITY</h1>
-      <form>
-        <div>
-          <div>
-            <label>Name:</label>
-            <input
-              type="text"
-              id={inputActivity.name}
-              name="name"
-              onChange={(e) => handleInputActivity(e)}
-            />
-            {error.name ? <p>{error.name}</p> : null}
-          </div>
-          <div>
-            <label>Difficulty:</label>
-            <input
-              type="number"
-              min="1"
-              max="5"
-              defaultValue="1"
-              id={inputActivity.difficulty}
-              name="difficulty"
-              onChange={(e) => handleInputActivity(e)}
-            />
-          </div>
-          <div>
-            <label>
-              Duration:
-              <input
-                type="number"
-                defaultValue="1"
-                min="1"
-                max="365"
-                id={inputActivity.duration}
-                name="duration"
-                onChange={(e) => handleInputActivity(e)}
-              />
-              Days
-            </label>
-          </div>
-          <div>
-            <label>
-              Season:
-              <select name="season" onChange={handleSelect}>
-                <option value="summer">Summer</option>
-                <option value="fall">Fall</option>
-                <option value="winter">Winter</option>
-                <option value="spring">Spring</option>
-              </select>
-            </label>
-          </div>
+    <Layout>
+      <div className="mainDiv">
+        <div className="backgroundForm">
+          <h1> CREATE ACTIVITY</h1>
+          <form>
+            <div className="formContainer">
+              <div className="formFirst">
+                <div className="formFirstDivs">
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    value={inputActivity.name}
+                    id={inputActivity.name}
+                    placeholder="Insert name here"
+                    name="name"
+                    onChange={(e) => handleInputActivity(e)}
+                  />
+                  {errorInput.name ? <p>{errorInput.name}</p> : null}
+                </div>
+                <div className="formFirstDivs">
+                  <label>Difficulty:</label>
+                  <input
+                    type="number"
+                    value={inputActivity.difficulty}
+                    id={inputActivity.difficulty}
+                    name="difficulty"
+                    onChange={(e) => handleInputActivity(e)}
+                  />
+                  {errorInput.difficulty ? (
+                    <p>{errorInput.difficulty}</p>
+                  ) : null}
+                </div>
+                <div className="formFirstDivs">
+                  <label>Duration(Days):</label>
+                  <input
+                    type="number"
+                    value={inputActivity.duration}
+                    min="1"
+                    max="365"
+                    id={inputActivity.duration}
+                    name="duration"
+                    onChange={(e) => handleInputActivity(e)}
+                  />
+                  {errorInput.duration ? <p>{errorInput.duration}</p> : null}
+                </div>
+                <div className="formFirstDivs">
+                  <label>Season:</label>
+                  <select
+                    name="season"
+                    onChange={(e) => handleInputActivity(e)}
+                  >
+                    <option value="summer">Summer</option>
+                    <option value="fall">Fall</option>
+                    <option value="winter">Winter</option>
+                    <option value="spring">Spring</option>
+                  </select>
+                </div>
+                <div className="formFirstDivs">
+                  <label>Countries to add this activity:</label>
+                  <input
+                    list="countries"
+                    name="countries"
+                    placeholder="Insert country to filter"
+                    value={inputCountries}
+                    onChange={(e) => handleDatalistCountries(e)}
+                  />
 
-          <label>Countries to add this activity:</label>
-          <input
-            list="countries"
-            name="countries"
-            onChange={(e) => handleDatalistCountries(e)}
-          />
-          <datalist id="countries">
-            {countries &&
-              countries.map((c) => {
-                return <option key={c.id} value={c.name} id={c.id} />;
-              })}
-          </datalist>
-          <button onClick={(e) => handleCountrySelect(e)}>Add</button>
-          <ul>
-            {countriesList?.map((c) => {
-              console.log(c);
-              return <li key={c.id}>{c.id}</li>;
-            })}
-          </ul>
-
-          <button
-            type="submit"
-            disabled={disable}
-            onClick={(e) => submitForm(e)}
-          >
-            Create
-          </button>
+                  <datalist id="countries">
+                    {countries
+                      ?.filter(
+                        (c) => !countriesList.find((c2) => c2.id === c.id)
+                      )
+                      .map((c) => {
+                        return <option key={c.id} value={c.name} id={c.id} />;
+                      })}
+                  </datalist>
+                  <button
+                    onClick={(e) => handleCountrySelect(e)}
+                    className="buttonForm"
+                  >
+                    Add Country
+                  </button>
+                </div>
+                <ul className="listIdsFlags">
+                  {countriesList?.map((c) => {
+                    return (
+                      <div key={c.id} className="countryBubble">
+                        <img src={c.flag} alt={c.name} />
+                        <h6>{c.id}</h6>
+                        <button value={c.id} onClick={(e) => deleteFromList(e)}>
+                          X
+                        </button>
+                      </div>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={disable}
+              onClick={(e) => submitForm(e)}
+              className="buttonForm"
+            >
+              Create
+            </button>
+          </form>
         </div>
-      </form>
-    </div>
+      </div>
+    </Layout>
   );
 }

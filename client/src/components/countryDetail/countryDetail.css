@@ -2,31 +2,107 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 620px;
-  padding-top: 315px;
   margin-left: 0;
-  background-image: url("../img/countryDetailBackground.jpg");
+  height: 100%;
+  background: url("../img/countryDetailBackground.jpg") no-repeat center;
+  background-size: 100%;
+  z-index: 0;
+}
+
+.detailsName div {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailsName h1 {
+  font-size: 40px;
+}
+
+.detailsName h2 {
+  font-size: 35px;
+  padding-top: 0;
+  margin-top: 0;
 }
 
 .detailsShade {
   width: 50%;
   margin-right: 0px;
-  background-image: linear-gradient(
+  background: linear-gradient(
     90deg,
     rgba(0, 0, 0, 0.6),
     rgba(0, 0, 0, 0.7),
     rgba(0, 0, 0, 0.8),
     rgba(0, 0, 0, 0.9)
   );
-  z-index: 1;
+  z-index: 10;
+}
+
+.detailsName {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.detailsName img {
+  height: 240px;
+  width: 480px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .detailsText {
   color: white;
-  font-family: monospace;
   font-size: 26px;
   text-align: justify;
   line-height: 30px;
   padding-left: 25px;
+}
+
+.keyInfo {
+  display: flex;
   padding-top: 30px;
+  font-size: 30px;
+  padding-left: 50px;
+}
+.keyInfo p {
+  margin: 0 5px;
+}
+.keyInfo label {
+  text-decoration: underline;
+}
+
+.activitiesList {
+  display: flex;
+  padding-top: 30px;
+  font-size: 30px;
+  padding-left: 50px;
+  flex-direction: column;
+}
+
+.activitiesList div {
+  display: flex;
+}
+
+.activitiesList p {
+  margin: 0 5px;
+}
+
+.activitiesList label {
+  text-decoration: underline;
+}
+
+.activitiesCard {
+  width: 900px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.detailsName div {
+  background: rgba(11, 66, 96, 0.9);
+  border-radius: 10px;
+  color: rgb(216 163 40);
 }

@@ -8,9 +8,10 @@ import {
   changeOrder,
 } from "../../actions";
 import Paginated from "../paginated/Paginated";
-import NavBar from "../navBar/navBar";
 import Cards from "../countriesCards/CountriesCards";
 import "./home.css";
+import Layout from "../layout/Layout";
+import SearchBar from "../searchBar/Searchbar";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -36,12 +37,15 @@ export default function Home() {
     dispatch(getCountries());
   }, [dispatch]);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [allCountries]);
+
   const paginated = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
   function handleFilterByContinent(e) {
-    e.preventDefault();
     dispatch(filterBy({ ...filterValues, continent: e.target.value }));
     setCurrentPage(1);
   }
@@ -66,18 +70,22 @@ export default function Home() {
   }
 
   return (
-    <div>
-      <div className="selectContainer">
-        <div className="filtersContainer">
-          <div>
-            <div>
-              <p>Filter by:</p>
-            </div>
+    <Layout>
+      <div>
+        <div className="selectContainer">
+          <div className="filtersContainer">
             <div>
               <div>
-                <select onChange={(e) => handleFilterByContinent(e)}>
+                <p>Filter by:</p>
+              </div>
+              <div>
+                <select
+                  onChange={(e) => {
+                    handleFilterByContinent(e);
+                  }}
+                >
                   <option id="All" value="">
-                    All
+                    All Continents
                   </option>
                   <option id="Africa" value="Africa">
                     Africa
@@ -102,61 +110,60 @@ export default function Home() {
                   </option>
                 </select>
               </div>
+
+              <select onChange={(e) => handleFilterByActivities(e)}>
+                <option value="All" id="0">
+                  All Activities
+                </option>
+                {allAcitivities?.map((a) => {
+                  return (
+                    <option value={a.id} key={a.id}>
+                      {a.name}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
-            <select onChange={(e) => handleFilterByActivities(e)}>
-              <option value="All" id="0">
-                All
-              </option>
-              {allAcitivities?.map((a) => {
-                return (
-                  <option value={a.id} key={a.id}>
-                    {a.name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div>
-            <h3>Order by:</h3>
-            <select onChange={(e) => handleOrder(e)}>
-              <option id="name" value="name">
-                Name
-              </option>
-              <option id="population" value="population">
-                Population
-              </option>
-            </select>
-            <h3>Form</h3>
-            <select onChange={(e) => handleOrderDirection(e)}>
-              <option id="ASC" value="ASC">
-                Ascendant
-              </option>
-              <option id="DESC" value="DESC">
-                Descendant
-              </option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <Paginated
-            countriesPerPage={countriesPerPage}
-            allCountries={allCountries.length}
-            paginated={paginated}
-            currentPage={currentPage}
-          />
-        </div>
-      </div>
-      <div>
-        {error ? (
-          <p>{error}</p>
-        ) : (
-          <div>
             <div>
-              <Cards countries={currentCountries} />
+              <p>Order by:</p>
+              <select onChange={(e) => handleOrder(e)}>
+                <option id="name" value="name">
+                  Name
+                </option>
+                <option id="population" value="population">
+                  Population
+                </option>
+              </select>
+              <select onChange={(e) => handleOrderDirection(e)}>
+                <option id="ASC" value="ASC">
+                  Ascendant
+                </option>
+                <option id="DESC" value="DESC">
+                  Descendant
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <div>
+                <p>Search by term:</p>
+              </div>
+              <SearchBar />
             </div>
           </div>
-        )}
+          <div>
+            <Paginated
+              countriesPerPage={countriesPerPage}
+              allCountries={allCountries.length}
+              paginated={paginated}
+              currentPage={currentPage}
+            />
+          </div>
+        </div>
+        <div className="cardsContainer">
+          {error ? <p>{error}</p> : <Cards countries={currentCountries} />}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }

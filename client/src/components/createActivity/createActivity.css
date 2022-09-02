@@ -1,3 +1,122 @@
 .mainDiv {
-  padding-top: 315px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url("../img/countryDetailBackground.jpg") no-repeat center;
+  background-size: 100%;
+}
+
+.listIdsFlags {
+  border-radius: 4px;
+  height: 250px;
+  width: 250px;
+  padding: 0;
+}
+
+.formFirst p {
+  width: 50px;
+  margin: 0;
+}
+.formFirst img {
+  height: 14px;
+  width: 25px;
+  border: solid black 1px;
+}
+
+.countryBubble button {
+  font-weight: bold;
+  border: none;
+  background: none;
+  color: red;
+  cursor: pointer;
+}
+
+.countryBubble {
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  border-radius: 16px;
+  font-family: Arial;
+  color: #323333;
+  font-size: 10px;
+  background: #ffffff;
+  padding: 5px 10px;
+  border: solid #b1b4b7 1px;
+  text-decoration: none;
+}
+.countryBubble h6 {
+  margin: 0;
+  font-size: 12px;
+  padding-left: 3px;
+}
+.backgroundForm {
+  height: 550px;
+  width: 1200px;
+  background: #bac2c8bb;
+  border-radius: 20px;
+}
+
+.backgroundForm h1 {
+  color: #000000;
+}
+.formFirst {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.formContainer {
+  height: 400px;
+  display: flex;
+  justify-content: center;
+}
+
+.formFirst p {
+  width: auto;
+  color: rgb(149 8 8);
+  font-weight: 500;
+}
+
+.formFirst input {
+  border: solid lightgray 1px;
+  height: 25px;
+  border-radius: 6px;
+  width: 243px;
+  align-self: center;
+}
+
+.formFirst label {
+  color: rgb(24, 23, 23);
+  font-size: 15px;
+}
+
+.formFirst select {
+  border: solid lightgray 1px;
+  height: 25px;
+  border-radius: 6px;
+  color: rgb(75, 93, 105);
+}
+
+.formFirst option {
+  border: solid lightgray 1px;
+  height: 25px;
+  border-radius: 6px;
+}
+
+.formFirstDivs {
+  margin: 3px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonForm {
+  margin-top: 5px;
+  border-radius: 20px;
+  height: 25px;
 }

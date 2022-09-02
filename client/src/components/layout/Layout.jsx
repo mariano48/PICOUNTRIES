@@ -1,12 +1,11 @@
 import React from "react";
-import NavBar from "../navBar/navBar";
+import NavBar from "../navBar/NavBar";
+import "./layout.css";
 
 export default function Layout({ children }) {
   return (
     <div className="layoutContainer">
-      <div>
-        <NavBar />
-      </div>
+      <NavBar />
       <div className="childrenContainer"> {children}</div>
     </div>
   );
