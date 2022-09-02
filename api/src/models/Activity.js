@@ -20,6 +20,14 @@ module.exports = (sequelize) => {
           min: 1,
           max: 5,
         },
+        get() {
+          if (this.getDataValue("difficulty") < 3) {
+            return `${this.getDataValue("difficulty")} (easy)`;
+          } else if (this.getDataValue("difficulty") === 3) {
+            return `${this.getDataValue("difficulty")} (medium)`;
+          }
+          return `${this.getDataValue("difficulty")} (hard)`;
+        },
       },
       duration: {
         type: DataTypes.INTEGER,

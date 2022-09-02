@@ -10,13 +10,8 @@ const {
   getCountryByID,
   getAllCountries,
 } = require("../controllers/countries/index.js");
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
 
 const router = Router();
-
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
 
 router.get("/countries", async (req, res) => {
   const { searchTerm, continent, activityId } = req.query;
@@ -34,7 +29,6 @@ router.get("/countries/:id", async (req, res) => {
     let countryById = await getCountryByID(id);
     res.status(200).json(countryById);
   } catch (error) {
-    console.log(error);
     res.status(404).json({ error: error });
   }
 });
@@ -47,20 +41,17 @@ router.get("/activities", async (req, res) => {
     res.status(400).json({ error: error });
   }
 });
+
 router.post("/activities", async (req, res) => {
   const { name, difficulty, season, duration, ids } = req.body;
-  try {
-    let newActivity = await createActivity(
-      name,
-      difficulty,
-      season,
-      duration,
-      ids
-    );
-    res.status(200).send(newActivity);
-  } catch (error) {
-    res.status(400).json({ error: error });
-  }
+  let newActivity = await createActivity(
+    name,
+    difficulty,
+    duration,
+    season,
+    ids
+  );
+  newActivity ? res.status(200).send(newActivity) : res.json([]);
 });
 
 module.exports = router;

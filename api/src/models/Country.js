@@ -42,13 +42,19 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
         get() {
-          const value = `${this.getDataValue("area")} km2`;
+          const value = `${this.getDataValue("area").toLocaleString()} km2`;
           return value;
         },
       },
       population: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        get() {
+          const valueFixed = `${this.getDataValue(
+            "population"
+          ).toLocaleString()} people`;
+          return valueFixed;
+        },
       },
     },
     { timestamps: false }

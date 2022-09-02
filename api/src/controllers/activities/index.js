@@ -1,26 +1,31 @@
+const { Op } = require("sequelize");
 const { Activity } = require("../../db");
 
-const createActivity = async (name, difficulty, season, duration, ids) => {
-  console.log(ids);
+const createActivity = async (name, difficulty, duration, season, ids) => {
   if (!name || !difficulty || !duration || !season || !ids.length) {
-    throw "Debe ingresar todos los campos obligatorios";
+    return "Please enter all the obligatory fields";
   } else if (
     season === "summer" ||
     season === "fall" ||
     season === "winter" ||
     season === "spring"
   ) {
-    const activity = await Activity.create({
-      name,
-      difficulty,
-      duration,
-      season,
+    duration = Number(duration);
+    const exist = await Activity.findAll({
+      where: { name },
     });
-    await activity.setCountries(ids);
-
-    return `${name}: Actividad creada correctamente`;
+    if (!exist.length) {
+      const activity = await Activity.create({
+        name,
+        difficulty,
+        duration,
+        season,
+      });
+      await activity.setCountries(ids);
+      return `Activity created succesfully`;
+    } else return `Theres already an activity with that name`;
   } else {
-    throw "La temporada ingresada es invalida";
+    return "The season is not valid";
   }
 };
 

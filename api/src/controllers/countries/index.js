@@ -27,7 +27,6 @@ const apiToBd = async (allCountries) => {
 
 const getDbInfo = async (searchTerm, continent, activityId) => {
   let filter = {};
-
   if (continent) {
     filter.continent = { continent };
   }
@@ -77,13 +76,6 @@ const getAllCountries = async (searchTerm, continent, activity) => {
   let allCountries = await getDbInfo(searchTerm, continent, activity);
   return allCountries;
 };
-const getCountryByName = async (name) => {
-  const nameRight = name[0].toUpperCase() + name.slice(1).toLowerCase();
-  const country = Country.findOne({ where: { name: nameRight } });
-  if (country) {
-    return country;
-  } else throw "There is no country with that name";
-};
 
 module.exports = {
   getApiInfo,
@@ -91,6 +83,4 @@ module.exports = {
   getDbInfo,
   getCountryByID,
   getAllCountries,
-  getCountryByName,
-  // orderBy,
 };
