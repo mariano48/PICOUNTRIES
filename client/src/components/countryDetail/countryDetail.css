@@ -4,8 +4,7 @@
   justify-content: space-between;
   margin-left: 0;
   height: 100%;
-  background: url("../img/countryDetailBackground.jpg") no-repeat center;
-  background-size: 100%;
+  background: #235880;
   z-index: 0;
 }
 
@@ -19,12 +18,14 @@
 
 .detailsName h1 {
   font-size: 40px;
+  margin: 1%;
 }
 
 .detailsName h2 {
   font-size: 35px;
   padding-top: 0;
   margin-top: 0;
+  margin-bottom: 15px;
 }
 
 .detailsShade {
@@ -105,4 +106,97 @@
   background: rgba(11, 66, 96, 0.9);
   border-radius: 10px;
   color: rgb(216 163 40);
+}
+
+@media (max-width: 1200px) {
+  .detailContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 0;
+    height: 100%;
+    background: #235880;
+    z-index: 0;
+    align-items: center;
+  }
+
+  .detailsName {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .detailsName div {
+    width: 1100px;
+    height: 90%;
+    background: rgba(11, 66, 96, 0.9);
+    border-radius: 10px;
+    color: rgb(216 163 40);
+  }
+}
+
+@media (max-width: 500px) {
+  .detailContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 0;
+    background: #235880;
+    z-index: 0;
+    align-items: center;
+  }
+  .detailsName div {
+    margin: 15px 0;
+    width: 350px;
+    height: 310px;
+    background: rgba(11, 66, 96, 0.9);
+    border-radius: 10px;
+    color: rgb(216 163 40);
+  }
+
+  .detailsName img {
+    height: 180px;
+    width: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .detailsShade {
+    width: 350px;
+    margin-right: 0px;
+    border-radius: 10px;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.9)
+    );
+    z-index: 10;
+  }
+
+  .detailsText {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .detailsText label {
+    margin-left: 25px;
+  }
+  .keyInfo {
+    display: flex;
+    font-size: 20px;
+    padding: 0;
+  }
+
+  .activitiesList {
+    font-size: 20px;
+    padding: 0;
+  }
+  .activitiesCard {
+    width: 350px;
+    display: flex;
+    justify-content: space-around;
+    justify-self: center;
+  }
 }

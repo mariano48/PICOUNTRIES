@@ -1,7 +1,7 @@
 .navMain {
   height: 315px;
   width: 100%;
-  background: url("../img/navBarImg.jpg");
+  background: url('../img/navBarImg.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -20,7 +20,7 @@
   padding-left: 17px;
   line-height: 70px;
   font-weight: bold;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .navContainer {

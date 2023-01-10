@@ -1,17 +1,17 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getActivities,
   getCountries,
   filterBy,
-  changeOrder,
-} from "../../actions";
-import Paginated from "../paginated/Paginated";
-import Cards from "../countriesCards/CountriesCards";
-import "./home.css";
-import Layout from "../layout/Layout";
-import SearchBar from "../searchBar/Searchbar";
+  changeOrder
+} from '../../actions';
+import Paginated from '../paginated/Paginated';
+import Cards from '../countriesCards/CountriesCards';
+import './home.css';
+import Layout from '../layout/Layout';
+import SearchBar from '../searchBar/Searchbar';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -124,7 +124,7 @@ export default function Home() {
                 })}
               </select>
             </div>
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               <p>Order by:</p>
               <select onChange={(e) => handleOrder(e)}>
                 <option id="name" value="name">

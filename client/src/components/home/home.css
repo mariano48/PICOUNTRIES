@@ -29,3 +29,15 @@
   padding-right: 5px;
   background: #3079b0;
 }
+
+@media (max-width: 1100px) {
+  .filtersContainer {
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 800px;
+  }
+}

@@ -2,8 +2,9 @@
   position: fixed;
   width: 100%;
   height: 100%;
-  background-image: url("../img/landingBackground.jpg");
-  background-size: 100%;
+  background-image: url('../img/landingBackground.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   color: rgb(222, 212, 212);
   display: flex;
 }
@@ -43,5 +44,5 @@
   padding-top: 0px;
   line-height: 70px;
   font-weight: bold;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

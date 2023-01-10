@@ -1,16 +1,21 @@
 .listita {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.listita button {
+  margin-right: 15px;
 }
 
 .listita li {
-    padding: 0 5px;
-
+  padding: 0 5px;
+  margin-right: 15px;
+  font-size: 20px;
 }
 
 .listita button.active {
   background-color: #444;
   color: white;
-} 
+}
