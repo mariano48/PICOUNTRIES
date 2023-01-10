@@ -33,6 +33,7 @@ export default function Paginated({
           if (currentPage === n) {
             return <li key={n}>{n}</li>;
           }
+          return null;
         })}
         <button
           disabled={currentPage === pageNumbers.length}
