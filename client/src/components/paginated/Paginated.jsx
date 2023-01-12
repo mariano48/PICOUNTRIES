@@ -29,12 +29,7 @@ export default function Paginated({
         >
           {`<`}
         </button>
-        {pageNumbers?.map((n) => {
-          if (currentPage === n) {
-            return <li key={n}>{n}</li>;
-          }
-          return null;
-        })}
+        <li key={currentPage}>{currentPage}</li>
         <button
           disabled={currentPage === pageNumbers.length}
           onClick={() => {
